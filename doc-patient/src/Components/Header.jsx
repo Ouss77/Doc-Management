@@ -1,13 +1,21 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import docImage from '../assets/doc-icone.jpg';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from 'react-router-dom';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activePage, setActivePage] = useState('');
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const location = useLocation();
+
+  // Update activePage state based on the current URL
+  React.useEffect(() => {
+    setActivePage(location.pathname);
+  }, [location.pathname]);
 
   return (
     <nav className="bg-gradient-to-r from-blue-500 via-blue-20 to-blue-50 bg-opacity-20 dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
@@ -28,16 +36,16 @@ const Header = () => {
         <div className={`items-center justify-between w-full md:flex md:w-auto md:order-1 ${isOpen ? 'block' : 'hidden'}`} id="navbar-sticky">
           <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
-              <Link to="/" className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">Home</Link>
+              <Link to="/" className={`block py-2 px-3 rounded md:bg-transparent md:p-0 md:dark:text-blue-500 md:dark:hover:text-blue-500 md:dark:bg-transparent ${activePage === '/' ? 'text-white' : 'text-gray-900'}`} aria-current="page">Home</Link>
             </li>
             <li>
-              <Link to="/About" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-white md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</Link>
+              <Link to="/About" className={`block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-white md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${activePage === '/About' ? 'text-white' : 'text-gray-900'}`}>About</Link>
             </li>
             <li>
-              <Link to="/Patient" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-white md:p-0 md:dark:hover:text-white dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Patients</Link>
+              <Link to="/Patient" className={`block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-white md:p-0 md:dark:hover:text-white dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${activePage === '/Patient' ? 'text-white' : 'text-gray-900'}`}>Patients</Link>
             </li>
             <li>
-              <a href="/Contact" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-white md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
+              <Link to="/Contact" className={`block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-white md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${activePage === '/Contact' ? 'text-white' : 'text-gray-900'}`}>Contact</Link>
             </li>
           </ul>
         </div>

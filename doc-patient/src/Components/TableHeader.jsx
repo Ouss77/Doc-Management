@@ -1,60 +1,78 @@
-import { useState } from "react";
-
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
+import axios from "axios";
+import PatientsTable from "./PatientsTable";
 import Dashboard from "./Dashboard";
 import AddPatient from "../Pages/AddPatient";
+import doc from '../assets/doc.jpg'
 
-// eslint-disable-next-line react/prop-types
-function TableHeader({ onSearch }) {
+function TableHeader({ displayComponent, setDisplayComponent }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [displayComponent, setDisplayComponent] = useState(null); // State to manage which component to display
+  const [patients, setPatients] = useState([]);
+  const [filteredPatients, setFilteredPatients] = useState([]);
 
   const handleSearchChange = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
-    onSearch(query); // Call onSearch with the new query
+    handleSearch(query);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/users");
+        setPatients(response.data);
+        setFilteredPatients(response.data);
+      } catch (error) {
+        console.error("Error fetching patients:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleSearch = (query) => {
+    const filtered = patients.filter((patient) =>
+      patient.prenom.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredPatients(filtered);
+  };
+
+  const handleDelete = async (patientId) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/users/${patientId}`);
+      console.log("Patient deleted successfully");
+      setPatients(patients.filter((patient) => patient._id !== patientId));
+      setFilteredPatients(filteredPatients.filter((patient) => patient._id !== patientId));
+    } catch (error) {
+      console.error("Error deleting patient:", error);
+    }
   };
 
   const exportData = () => {
-    // Create a CSV content string
-    const csvContent = "data:text/csv;charset=utf-8," + users.map(user => {
-      // Format the visitDate to "yyyy-mm-dd"
-      const formattedVisitDate = new Date(user.visitDate).toISOString().split('T')[0];
-      // Return the formatted user data as a CSV row
-      return Object.values({ ...user, visitDate: formattedVisitDate }).join(',');
-    }).join('\n');
-  
-    // Create a link element
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "users.csv");
-  
-    // Simulate click on the link to trigger download
-    document.body.appendChild(link);
-    link.click();
-  
-    // Clean up
-    document.body.removeChild(link);
+    // Export logic here
   };
+
   const handleExploreData = () => {
-    // Set displayComponent state to 'Dashboard'
-    setDisplayComponent('Dashboard');
+    setDisplayComponent("Dashboard");
   };
 
   const handleAddPatient = () => {
-    // Set displayComponent state to 'AddPatient'
-    setDisplayComponent('AddPatient');
+    setDisplayComponent("AddPatient");
   };
 
+  // eslint-disable-next-line no-unused-vars
+  const handleEdit = () => {
+    
+  }
   return (
-    <div>
+    <div className="bg-[url('./assets/doc.jpg')] h-screen bg-no-repeat bg-cover">
       <section className="flex items-center dark:bg-gray-900">
-        <div className="w-2/3 max-w-screen-xl px-4 mx-auto lg:px-12 p-20">
+        <div className="w-2/3 max-w-screen-xl px-4 mx-auto lg:px-12 pt-20">
           <div className="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
             <div className="flex-row items-center justify-between p-4 space-y-3 sm:flex sm:space-y-0 sm:space-x-4">
               <div>
                 <h5 className="mr-3 font-semibold dark:text-white">
-                  Flowbite Users
+                  SASSOUR Patients
                 </h5>
                 <p className="text-gray-500 dark:text-gray-400">
                   Manage Patients
@@ -63,7 +81,7 @@ function TableHeader({ onSearch }) {
               <div className="flex items-center">
                 <button
                   type="button"
-                  onClick={handleAddPatient} // Call handleAddPatient when "Ajouter Patient" button is clicked
+                  onClick={handleAddPatient}
                   className="flex items-center justify-center px-4 py-2 text-sm font-medium text-black bg-blue-500 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300  focus:outline-none  mr-4"
                 >
                   <svg
@@ -86,7 +104,7 @@ function TableHeader({ onSearch }) {
                 </button>
                 <button
                   type="button"
-                  onClick={handleExploreData} // Call handleExploreData when "Explore Data" button is clicked
+                  onClick={handleExploreData}
                   className="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 focus:outline-none"
                 >
                   Explore Data
@@ -97,7 +115,7 @@ function TableHeader({ onSearch }) {
                   type="text"
                   value={searchQuery}
                   placeholder="Chercher par nom"
-                  onChange={handleSearchChange} // Call handleSearchChange on input change
+                  onChange={handleSearchChange}
                   className="border border-gray-300 p-2 rounded-lg"
                 />
               </div>
@@ -105,11 +123,19 @@ function TableHeader({ onSearch }) {
           </div>
         </div>
       </section>
-      
-      {/* Conditionally render components based on displayComponent state */}
-      {displayComponent === 'AddPatient' && <AddPatient />}
-      {displayComponent === 'Dashboard' && <Dashboard />}
-    </div>
+
+      {displayComponent === "Dashboard" ? (
+        <Dashboard />
+      ) : displayComponent === "AddPatient" ? (
+        <AddPatient />
+      ) : ( 
+        <PatientsTable
+        filteredUsers={filteredPatients}
+          handleDelete={handleDelete}
+          
+        />
+      )}
+    </div> 
   );
 }
 

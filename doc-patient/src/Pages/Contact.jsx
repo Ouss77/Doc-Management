@@ -2,9 +2,9 @@ import Header from "../Components/Header"
 
 function Contact() {
   return (
-    <>
+    < div className=" bg-[url('./assets/doc.jpg')] h-full bg-no-repeat bg-cover">
 <Header/>
-    <div className="container my-24 mx-auto md:px-6">
+    <div className="container my-24 mx-auto md:px-6 ">
     {/* Section: Design Block */}
     <section className="mb-32">
       <div className="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
@@ -159,7 +159,7 @@ function Contact() {
     </section>
     {/* Section: Design Block */}
   </div>
-  </>
+  </div>
 
   )
 }

@@ -28,29 +28,36 @@ export default function Dashboard() {
   }, []);
 
   // Function to transform data for the chart
-  const transformDataForChart = () => {
-    const chartData = [];
+ // Function to transform data for the chart
+const transformDataForChart = () => {
+  const chartData = [];
 
-    // Grouping user data by visitDate and summing up users for each date
-    const groupedData = userData.reduce((acc, curr) => {
-      const date = curr.visitDate.split("T")[0]; // Extracting date from timestamp
-      if (acc[date]) {
-        acc[date] += 1;
-      } else {
-        acc[date] = 1;
-      }
-      return acc;
-    }, {});
+  // Grouping user data by visitDate and summing up users for each date
+  const groupedData = userData.reduce((acc, curr) => {
+    const date = curr.dateVisite.split("T")[0]; // Extracting date from timestamp
+    const [year, month, day] = date.split("-"); // Splitting date into year, month, and day
+    const formattedDate = `${month}-${day}`; // Formatting date as month-day
 
-    // Converting grouped data into array format required by Recharts
-    for (const date in groupedData) {
-      chartData.push({ date, users: groupedData[date] });
+    if (acc[formattedDate]) {
+      acc[formattedDate] += 1;
+    } else {
+      acc[formattedDate] = 1;
     }
+    return acc;
+  }, {});
 
-    return chartData;
-  };
+  // Converting grouped data into array format required by Recharts
+  for (const date in groupedData) {
+    chartData.push({ date, users: groupedData[date] });
+  }
+
+  return chartData;
+};
+
 
   return (
+    <div className="ml-96 ">
+
     <ComposedChart
       width={500}
       height={400}
@@ -59,9 +66,9 @@ export default function Dashboard() {
         top: 20,
         right: 20,
         bottom: 20,
-        left: 20
+        left: 50
       }}
-    >
+      >
       <CartesianGrid stroke="#f5f5f5" />
       <XAxis dataKey="date" />
       <YAxis />
@@ -70,5 +77,6 @@ export default function Dashboard() {
       <Bar dataKey="users" barSize={20} fill="#413ea0" />
       <Line type="monotone" dataKey="users" stroke="#ff7300" />
     </ComposedChart>
+      </div>
   );
 }

@@ -1,38 +1,35 @@
 const express = require('express');
 const router = express.Router();
-const User = require('./UserModel');
+const Patient = require('./UserModel');
 
 router.post('/', async (req, res) => {
   try {
-    // Parse the visitDate received from the frontend
-    const visitDate = new Date(req.body.visitDate);
-
-    // Convert the parsed date to YYYY-MM-DD format
-    const formattedVisitDate = visitDate.toISOString().split('T')[0];
-
-    const newUser = new User({
-      fullName: req.body.fullName,
-      telephone: req.body.telephone,
-      status: req.body.status,
-      description: req.body.description,
-      visitDate: formattedVisitDate  // Save the formatted date to the database
+    const newPatient = new Patient({
+      nom: req.body.nom,
+      prenom: req.body.prenom,
+      dateNaissance: req.body.dateNaissance,
+      mutuelle: req.body.mutuelle,
+      adresse: req.body.adresse,
+      tel: req.body.tel,
+      motif: req.body.motif,
+      dateVisite: req.body.dateVisite
     });
 
-    await newUser.save();
-    res.status(201).json(newUser);
-  } catch (err) {
-    console.error('Error adding user:', err);
-    res.status(500).json({ error: 'Could not add user' });
+    const savedPatient = await newPatient.save();
+    res.status(201).json(savedPatient);
+  } catch (error) {
+    console.error('Error creating patient:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
-
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await Patient.find();
     const formattedUsers = users.map(user => ({
       ...user._doc,
-      visitDate: user.visitDate.toISOString().split('T')[0] // Format the date
+      dateVisite: user.dateVisite ? user.dateVisite.toISOString().split('T')[0] : null, // Format the date of visit if it exists, otherwise set to null
+      dateNaissance: user.dateNaissance ? user.dateNaissance.toISOString().split('T')[0] : null // Format the date of birth if it exists, otherwise set to null
     }));
     res.status(200).json(formattedUsers);
   } catch (error) {
@@ -41,16 +38,35 @@ router.get('/', async (req, res) => {
   }
 });
 
-
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     // Find the user by ID and delete it
-    await User.findByIdAndDelete(id);
+    await Patient.findByIdAndDelete(id);
     res.status(200).json({ message: 'User deleted successfully' });
   } catch (error) {
     console.error('Error deleting user:', error);
     res.status(500).json({ error: 'Could not delete user' });
   }
 });
+
+router.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params; // Get the _id from the request params
+    const updates = req.body; // Get the updates from the request body
+
+    // Find the patient by _id and update it with the provided updates
+    const updatedPatient = await Patient.findByIdAndUpdate(id, updates, { new: true });
+
+    if (!updatedPatient) {
+      return res.status(404).json({ message: 'Patient not found' });
+    }
+
+    res.status(200).json(updatedPatient);
+  } catch (error) {
+    console.error('Error updating patient:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 module.exports = router;

@@ -1,16 +1,43 @@
-import { useState } from "react";
-import AddPatient from "./AddPatient";
+import { useEffect, useState } from "react";
+
 import Dashboard from "./Dashboard";
+import AddPatient from "../Pages/AddPatient";
+import axios from "axios";
+import PatientsTable from "./PatientsTable";
 
 // eslint-disable-next-line react/prop-types
 function TableHeader({ onSearch }) {
+
   const [searchQuery, setSearchQuery] = useState("");
-  const [displayComponent, setDisplayComponent] = useState(null); // State to manage which component to display
+  const [displayComponent, setDisplayComponent] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]); // State for filtered users
 
   const handleSearchChange = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
-    onSearch(query); // Call onSearch with the new query
+    onSearch(query);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/users");
+        setUsers(response.data);
+        setFilteredUsers(response.data); // Initialize filteredUsers with all users
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // Callback function to handle search/filtering
+  const handleSearch = (query) => {
+    const filtered = users.filter((user) =>
+      user.fullName.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredUsers(filtered);
   };
 
   const exportData = () => {
@@ -104,7 +131,8 @@ function TableHeader({ onSearch }) {
           </div>
         </div>
       </section>
-      
+      <PatientsTable users={users} filteredUsers={filteredUsers} />
+
       {/* Conditionally render components based on displayComponent state */}
       {displayComponent === 'AddPatient' && <AddPatient />}
       {displayComponent === 'Dashboard' && <Dashboard />}

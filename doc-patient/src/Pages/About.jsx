@@ -3,9 +3,9 @@ import doc from '../assets/doc1.jpg'
 import doc2 from '../assets/doc2.jpg'
 function About() {
   return (
-    <div>
+    <dispatchEvent>
 <Header/>
-          <section className="overflow-hidden pt-20 pb-12 lg:pt-[120px] lg:pb-[90px] bg-white dark:bg-dark">
+          <section className="overflow-hidden pt-20 pb-12 lg:pt-[120px] lg:pb-[90px] bg-white dark:bg-dark bg-[url('./assets/doc.jpg')] h-full bg-no-repeat bg-cover ">
         <div className="container mx-auto">
           <div className="flex flex-wrap items-center justify-between -mx-4">
             <div className="w-full px-4 lg:w-6/12">
@@ -64,7 +64,7 @@ function About() {
           </div>
         </div>
       </section>
-    </div>
+    </dispatchEvent>
   )
 }
 

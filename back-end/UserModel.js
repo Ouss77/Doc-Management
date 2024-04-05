@@ -1,14 +1,16 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
-  fullName: String,
-  telephone: String,
-  status: String,
-  description: String,
-  visitDate: Date
+const patientSchema = new mongoose.Schema({
+  nom: String,
+  prenom: String,
+  dateNaissance: Date,
+  mutuelle: String,
+  adresse: String, 
+  tel: String,
+  motif:String,
+  dateVisite:  { type: Date, default: Date.now }
 });
 
-// Change the collection name to "Patients"
-const User = mongoose.model('Patients', userSchema, 'Patients');
+const Patient = mongoose.model('Patients', patientSchema);
 
-module.exports = User;
+module.exports = Patient;
