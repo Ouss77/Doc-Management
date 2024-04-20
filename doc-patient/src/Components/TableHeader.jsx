@@ -4,7 +4,7 @@ import axios from "axios";
 import PatientsTable from "./PatientsTable";
 import Dashboard from "./Dashboard";
 import AddPatient from "../Pages/AddPatient";
-import doc from '../assets/doc.jpg'
+import { Link } from 'react-router-dom';
 
 function TableHeader({ displayComponent, setDisplayComponent }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -60,10 +60,7 @@ function TableHeader({ displayComponent, setDisplayComponent }) {
     setDisplayComponent("AddPatient");
   };
 
-  // eslint-disable-next-line no-unused-vars
-  const handleEdit = () => {
-    
-  }
+
   return (
     <div className="bg-[url('./assets/doc.jpg')] h-screen bg-no-repeat bg-cover">
       <section className="flex items-center dark:bg-gray-900">
@@ -71,9 +68,10 @@ function TableHeader({ displayComponent, setDisplayComponent }) {
           <div className="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
             <div className="flex-row items-center justify-between p-4 space-y-3 sm:flex sm:space-y-0 sm:space-x-4">
               <div>
-                <h5 className="mr-3 font-semibold dark:text-white">
-                  SASSOUR Patients
-                </h5>
+              <Link onClick={() => setDisplayComponent("PatientsTable")} className="mr-3 font-semibold dark:text-white">
+   PATIENTS
+</Link>
+
                 <p className="text-gray-500 dark:text-gray-400">
                   Manage Patients
                 </p>

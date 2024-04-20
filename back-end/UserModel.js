@@ -8,6 +8,8 @@ const patientSchema = new mongoose.Schema({
   adresse: String, 
   tel: String,
   motif:String,
+  diagnostic: String,
+  traitement:String,
   dateVisite:  { type: Date, default: Date.now }
 });
 

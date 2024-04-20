@@ -56,7 +56,7 @@ const transformDataForChart = () => {
 
 
   return (
-    <div className="ml-96 ">
+    <div className="ml-96">
 
     <ComposedChart
       width={500}

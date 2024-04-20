@@ -12,7 +12,9 @@ router.post('/', async (req, res) => {
       adresse: req.body.adresse,
       tel: req.body.tel,
       motif: req.body.motif,
-      dateVisite: req.body.dateVisite
+      dateVisite: req.body.dateVisite,
+      diagnostic: req.body.diagnostic,
+      traitement: req.body.traitement
     });
 
     const savedPatient = await newPatient.save();

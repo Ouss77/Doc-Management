@@ -1,143 +1,130 @@
-import { useEffect, useState } from "react";
+import  { useState } from 'react';
+import Form from './Form';
+function YourComponent() {
+  const [displayForm, setDisplayForm] = useState(false);
+  const [userToEdit, setUserToEdit] = useState(null); // State to store the user being edited
 
-import Dashboard from "./Dashboard";
-import AddPatient from "../Pages/AddPatient";
-import axios from "axios";
-import PatientsTable from "./PatientsTable";
-
-// eslint-disable-next-line react/prop-types
-function TableHeader({ onSearch }) {
-
-  const [searchQuery, setSearchQuery] = useState("");
-  const [displayComponent, setDisplayComponent] = useState(null);
-  const [users, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]); // State for filtered users
-
-  const handleSearchChange = (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    onSearch(query);
+  // Function to handle the edit button click
+  const handleEdit = (userId) => {
+    // Logic to fetch the user details based on userId, and set userToEdit state
+    setUserToEdit(/* Fetch user details based on userId */);
+    setDisplayForm(true);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/api/users");
-        setUsers(response.data);
-        setFilteredUsers(response.data); // Initialize filteredUsers with all users
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  // Callback function to handle search/filtering
-  const handleSearch = (query) => {
-    const filtered = users.filter((user) =>
-      user.fullName.toLowerCase().includes(query.toLowerCase())
-    );
-    setFilteredUsers(filtered);
+  // Function to handle form submission
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Logic to handle form submission, e.g., updating user data
+    setDisplayForm(false); // Hide the form after submission
   };
 
-  const exportData = () => {
-    // Create a CSV content string
-    const csvContent = "data:text/csv;charset=utf-8," + users.map(user => {
-      // Format the visitDate to "yyyy-mm-dd"
-      const formattedVisitDate = new Date(user.visitDate).toISOString().split('T')[0];
-      // Return the formatted user data as a CSV row
-      return Object.values({ ...user, visitDate: formattedVisitDate }).join(',');
-    }).join('\n');
-  
-    // Create a link element
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "users.csv");
-  
-    // Simulate click on the link to trigger download
-    document.body.appendChild(link);
-    link.click();
-  
-    // Clean up
-    document.body.removeChild(link);
-  };
-  const handleExploreData = () => {
-    // Set displayComponent state to 'Dashboard'
-    setDisplayComponent('Dashboard');
-  };
-
-  const handleAddPatient = () => {
-    // Set displayComponent state to 'AddPatient'
-    setDisplayComponent('AddPatient');
+  // Function to handle form field changes
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    // Logic to update userData state based on form field changes
   };
 
   return (
     <div>
-      <section className="flex items-center dark:bg-gray-900">
-        <div className="w-2/3 max-w-screen-xl px-4 mx-auto lg:px-12 p-20">
-          <div className="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
-            <div className="flex-row items-center justify-between p-4 space-y-3 sm:flex sm:space-y-0 sm:space-x-4">
-              <div>
-                <h5 className="mr-3 font-semibold dark:text-white">
-                  Flowbite Users
-                </h5>
-                <p className="text-gray-500 dark:text-gray-400">
-                  Manage Patients
-                </p>
-              </div>
-              <div className="flex items-center">
-                <button
-                  type="button"
-                  onClick={handleAddPatient} // Call handleAddPatient when "Ajouter Patient" button is clicked
-                  className="flex items-center justify-center px-4 py-2 text-sm font-medium text-black bg-blue-500 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300  focus:outline-none  mr-4"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-3.5 w-3.5 mr-2 -ml-1"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
-                  </svg>
-                  Ajouter Patient
-                </button>
-                <button
-                  type="button"
-                  onClick={exportData}
-                  className="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-lg hover:bg-green-600 focus:ring-4 focus:ring-green-300 focus:outline-none mr-2"
-                >
-                  Export Data
-                </button>
-                <button
-                  type="button"
-                  onClick={handleExploreData} // Call handleExploreData when "Explore Data" button is clicked
-                  className="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 focus:outline-none"
-                >
-                  Explore Data
-                </button>
-              </div>
-              <div>
-                <input
-                  type="text"
-                  value={searchQuery}
-                  placeholder="Chercher par nom"
-                  onChange={handleSearchChange} // Call handleSearchChange on input change
-                  className="border border-gray-300 p-2 rounded-lg"
-                />
-              </div>
-            </div>
-          </div>
+      <div className="relative shadow-md sm:rounded-lg sm:mx-56">
+      <div>
+      <div className=" mt-10"> 
+        <div className="relative shadow-md sm:rounded-lg sm:mx-56">
+          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  Nom
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Prenom
+                </th>
+                <th scope="col" className="px-6 py-3">
+                Telephone
+                </th>
+                <th scope="col" className="px-6 py-3">
+                Date de Naissance
+                </th>               
+                <th scope="col" className="px-6 py-3">
+                mutuelle
+                </th>
+                <th scope="col" className="px-6 py-3">
+                Motif
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Date de Visite
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  <span className="sr-only">Actions</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentUsers.map((user) => (
+                <tr key={user._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {user.nom}
+                  </td>
+                  <td className="px-6 py-4">{user.prenom}</td>
+                  <td className="px-6 py-4">{user.tel}</td>
+                  <td className="px-6 py-4">{user.dateNaissance}</td>
+                  <td className="px-6 py-4">{user.mutuelle}</td>
+                  <td className="px-6 py-4">{user.motif}</td>
+                  <td className="px-6 py-4">{user.dateVisite}</td>
+                  
+                  <td className="px-6 py-4 text-right">
+                    <a
+                      href="#"
+                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                      onClick={() => handleEdit(user._id)} // Set displayComponent state to 'AddPatient' when clicked
+                    >
+                      Modifier
+                    </a>
+                    <span className="mx-2">|</span>
+                    <a
+                      href="#"
+                      className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                      onClick={() => handleDelete(user._id)}
+                    >
+                      Suprimer
+                    </a>
+                    <span className="mx-2">|</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </section>
-      <PatientsTable users={users} filteredUsers={filteredUsers} />
+      </div>
+      <div className="flex justify-center mt-4">
+        <Pagination
+          activePage={activePage}
+          itemsCountPerPage={itemsPerPage}
+          totalItemsCount={filteredUsers.length}
+          pageRangeDisplayed={5}
+          onChange={handlePageChange}
+          itemClass="inline-block"
+          linkClass="px-3 py-1 mx-1 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 hover:text-gray-900"
+          activeLinkClass="px-3 py-1 mx-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          prevPageText="Previous"
+          nextPageText="Next"
+          firstPageText="First"
+          lastPageText="Last"
+        />
+      </div>
+    </div>
+          </div>
 
-      {/* Conditionally render components based on displayComponent state */}
-      {displayComponent === 'AddPatient' && <AddPatient />}
-      {displayComponent === 'Dashboard' && <Dashboard />}
+      {displayForm && (
+        <Form
+          userData={userToEdit} // Pass the user data to the form for editing
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          showSuccessAlert={false} // You can set this to true based on your logic
+        />
+      )}
     </div>
   );
 }
 
-export default TableHeader;
+export default YourComponent;
