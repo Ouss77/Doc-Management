@@ -40,6 +40,20 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Search patients by name
+router.get("/search", async (req, res) => {
+  const { nom } = req.query;
+  try {
+    console.log("Searching patients by name:", nom);
+    const patients = await Patient.find({ nom: { $regex: new RegExp(nom, "i") } });
+    console.log("Found patients:", patients);
+    res.json(patients);
+  } catch (err) {
+    console.error('Error searching patients by name:', err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
