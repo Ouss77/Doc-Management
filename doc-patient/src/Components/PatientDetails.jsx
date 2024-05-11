@@ -2,15 +2,18 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-function PatientDetails({ userName, onClose }) {
+function PatientDetails({ id, onClose }) {
   const [patients, setPatients] = useState([]);
 
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        if (userName) {
-          const response = await axios.get(`http://localhost:3000/api/users/search?nom=${userName}`);
-          setPatients(response.data); // Set the array of patients
+        if (id) {
+          console.log(id)
+          const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+          const response = await axios.get(`${apiUrl}api/users/medicalInfo/${id}`);
+        
+          setPatients(response.data);
         }
       } catch (error) {
         console.error("Error fetching patient details:", error);
@@ -18,7 +21,7 @@ function PatientDetails({ userName, onClose }) {
     };
   
     fetchPatients();
-  }, [userName]); // Include userId in the dependency array
+  }, [id]); // Include userId in the dependency array
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
@@ -35,8 +38,11 @@ function PatientDetails({ userName, onClose }) {
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
               <tr>
+              <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+                  Visits
+                </th>
                 <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                  Nom Complet
+                  Mutuelle
                 </th>
                 <th scope="col" className="px-6 py-3 bg-blue-50 dark:bg-blue-800">
                   Motif
@@ -52,9 +58,8 @@ function PatientDetails({ userName, onClose }) {
             <tbody>
               {patients.map((patient, index) => (
                 <tr key={index} className="border-b border-gray-200 dark:border-gray-700">
-                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                    {patient.nom} {patient.prenom}
-                  </td>
+                  <td className="px-6 py-4 bg-blue-50 dark:bg-blue-800">{patient.id}</td>
+                  <td className="px-6 py-4 bg-blue-50 dark:bg-blue-800">{patient.mutuelle}</td>
                   <td className="px-6 py-4 bg-blue-50 dark:bg-blue-800">{patient.motif}</td>
                   <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">{patient.diagnostic}</td>
                   <td className="px-6 py-4 bg-blue-50 dark:bg-blue-800">{patient.traitement}</td>

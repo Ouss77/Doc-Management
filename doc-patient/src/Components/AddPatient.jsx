@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import Form from "../Components/Form";
+import Form from "./Form";
 
 function AddPatient() {
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -9,18 +9,15 @@ function AddPatient() {
     nom: "",
     prenom: "",
     dateNaissance: "",
-    mutuelle: "",
     adresse: "",
     tel: "",
-    motif: "",
-    dateVisited: "",
+    tension: ""
   });
 
 const handleChange = (event) => {
   const { name, value } = event.target;
   setUserData({ ...userData, [name]: value });
 };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +31,9 @@ const handleChange = (event) => {
         ...userData,
         visitDate: formattedDate,
       };
-      await axios.post("http://localhost:3000/api/users", newData);
+      const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
+      await axios.post(`${apiUrl}api/users`, newData);
       console.log("User added successfully");
       setShowSuccessAlert(true);
       setUserData({
@@ -44,11 +43,11 @@ const handleChange = (event) => {
         mutuelle: "",
         adresse: "",
         tel: "",
-        motif: "",
-        dateVisited: "",
-        diagnostic: "",
-        traitement: "",
+        tension: ""
+
       });
+      window.location.reload(); // Refresh the page
+
     } catch (error) {
       console.error("Error adding user:", error);
     }

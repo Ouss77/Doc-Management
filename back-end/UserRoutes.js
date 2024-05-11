@@ -8,15 +8,11 @@ router.post('/', async (req, res) => {
       nom: req.body.nom,
       prenom: req.body.prenom,
       dateNaissance: req.body.dateNaissance,
-      mutuelle: req.body.mutuelle,
       adresse: req.body.adresse,
       tel: req.body.tel,
-      motif: req.body.motif,
-      dateVisite: req.body.dateVisite,
-      diagnostic: req.body.diagnostic,
-      traitement: req.body.traitement
+      tension: req.body.tension,
     });
-
+    console.log("hey")
     const savedPatient = await newPatient.save();
     res.status(201).json(savedPatient);
   } catch (error) {
@@ -40,19 +36,23 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Search patients by name
-router.get("/search", async (req, res) => {
-  const { nom } = req.query;
+//Search patients by name
+router.get('/medicalInfo/:patientId', async (req, res) => {
   try {
-    console.log("Searching patients by name:", nom);
-    const patients = await Patient.find({ nom: { $regex: new RegExp(nom, "i") } });
-    console.log("Found patients:", patients);
-    res.json(patients);
-  } catch (err) {
-    console.error('Error searching patients by name:', err);
-    res.status(500).json({ message: err.message });
+    const patientId = req.params.patientId;
+    const patient = await Patient.findById(patientId, 'medicalInfos');  // Select only the medicalInfos field
+
+    if (!patient) {
+      return res.status(404).json({ message: 'Patient not found' });
+    }
+
+    res.json(patient.medicalInfos);  // Send only medical info
+  } catch (error) {
+    console.error('Error retrieving medical info:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 
 router.delete('/:id', async (req, res) => {
   try {
@@ -81,6 +81,35 @@ router.put('/:id', async (req, res) => {
     res.status(200).json(updatedPatient);
   } catch (error) {
     console.error('Error updating patient:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.post('/addMedicalInfo/:id', async (req, res) => {
+  try {
+    const patientId = req.params.id;
+    const newInfo = {
+      id: 0,  // Temporary placeholder, will be replaced by actual next ID
+      mutuelle: req.body.mutuelle,
+      motif: req.body.motif,
+      diagnostic: req.body.diagnostic,
+      traitement: req.body.traitement,
+      dateVisite: req.body.dateVisite
+    };
+
+    const patient = await Patient.findById(patientId);
+    if (!patient) {
+      return res.status(404).json({ message: 'Patient not found' });
+    }
+
+    newInfo.id = patient.nextMedicalId;  // Set the incrementing ID
+    patient.medicalInfos.push(newInfo);  // Add the new info
+    patient.nextMedicalId += 1;  // Increment the ID for the next use
+
+    const updatedPatient = await patient.save();
+    res.status(201).json(updatedPatient);
+  } catch (error) {
+    console.error('Error adding medical info:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });

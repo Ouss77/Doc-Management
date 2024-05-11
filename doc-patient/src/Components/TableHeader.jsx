@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import PatientsTable from "./PatientsTable";
 import Dashboard from "./Dashboard";
-import AddPatient from "../Pages/AddPatient";
+import AddPatient from "./AddPatient";
 import { Link } from 'react-router-dom';
 
 function TableHeader({ displayComponent, setDisplayComponent }) {
@@ -20,7 +20,10 @@ function TableHeader({ displayComponent, setDisplayComponent }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/users");
+        //const response = await axios.get("http://localhost:3002/api/users");
+        const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
+        const response = await axios.get(`${apiUrl}api/users`);
         setPatients(response.data);
         setFilteredPatients(response.data);
       } catch (error) {
@@ -39,7 +42,8 @@ function TableHeader({ displayComponent, setDisplayComponent }) {
 
   const handleDelete = async (patientId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/users/${patientId}`);
+      const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+      await axios.delete(`${apiUrl}api/users/${patientId}`);
       console.log("Patient deleted successfully");
       setPatients(patients.filter((patient) => patient._id !== patientId));
       setFilteredPatients(filteredPatients.filter((patient) => patient._id !== patientId));

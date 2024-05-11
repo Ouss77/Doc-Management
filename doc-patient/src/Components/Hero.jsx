@@ -1,7 +1,7 @@
 import doc from '../assets/doc.jpg'
 function Hero() {
   return (
-    <div className="relative mt-16 sm:mt-0">
+    <div className="relative mt-16 sm:mt-0"> 
       {/* Image */}
       <img src={doc} alt="Doctor" className="w-full" />
 

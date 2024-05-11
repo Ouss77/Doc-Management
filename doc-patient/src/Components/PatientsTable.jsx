@@ -1,16 +1,18 @@
 /* eslint-disable react/prop-types */
-import{ useState } from "react";
+import { useState } from "react";
 import Pagination from "react-js-pagination";
 import EditForm from "./EditForm";
 import PatientDetails from "./PatientDetails"; // Import the component to display patient details
-import { FaPlus, FaRegEye, FaUserEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
+import AddPatientDetails from "./AddPatientDetails";
+import PatientRow from "./PatientRow";
 
 function PatientsTable({ filteredUsers, handleDelete }) {
   const [activePage, setActivePage] = useState(1);
   const [displayEditForm, setDisplayEditForm] = useState(false);
-  const [editingUserData, setEditingUserData] = useState(null);
   const [displayPatientDetails, setDisplayPatientDetails] = useState(false); // State to manage display of patient details
+  const [displayAddMedicalInfo, setDisplayAddMedicalInfo] = useState(false);
+  const [editingUserData, setEditingUserData] = useState(null);
+
   const [selectedPatientId, setSelectedPatientId] = useState(null); // State to store the ID of the selected patient
 
   const itemsPerPage = 10; // Number of items per page
@@ -48,6 +50,15 @@ function PatientsTable({ filteredUsers, handleDelete }) {
     window.location.reload(); // Refresh the page
   };
 
+  const handleAddComplete = () => {
+    setDisplayAddMedicalInfo(false);
+  };
+
+  const handleMedicalInfo = (user) => {
+    setEditingUserData(user);
+    setDisplayAddMedicalInfo(true);
+  };
+
   return (
     <div className="relative">
       {displayEditForm && editingUserData && (
@@ -64,8 +75,16 @@ function PatientsTable({ filteredUsers, handleDelete }) {
       {displayPatientDetails && selectedPatientId && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
           <PatientDetails
-            userName={selectedPatientId}
+            id={selectedPatientId}
             onClose={closePatientDetails} // Close function to hide patient details
+          />
+        </div>
+      )}
+      {displayAddMedicalInfo && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
+          <AddPatientDetails
+            userId={editingUserData._id}
+            onCancel={() => handleAddComplete()} // Cancel function can also be handled from the EditForm itself
           />
         </div>
       )}
@@ -75,76 +94,40 @@ function PatientsTable({ filteredUsers, handleDelete }) {
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
+                {" "}
                 Nom
               </th>
               <th scope="col" className="px-6 py-3">
-                Prenom
+                {" "}
+                Prenom{" "}
               </th>
               <th scope="col" className="px-6 py-3">
                 Telephone
               </th>
               <th scope="col" className="px-6 py-3">
-                Date de Naissance
+                {" "}
+                Date de Naissance{" "}
               </th>
               <th scope="col" className="px-6 py-3">
-                mutuelle
+                {" "}
+                Tension{" "}
               </th>
               <th scope="col" className="pl-20 py-3">
-              Actions              </th>
+                {" "}
+                Actions{" "}
+              </th>
             </tr>
           </thead>
           <tbody>
             {currentUsers.map((user) => (
-              <tr
+              <PatientRow
                 key={user._id}
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-              >
-                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  {user.nom}
-                </td>
-                <td className="px-6 py-4">{user.prenom}</td>
-                <td className="px-6 py-4">{user.tel}</td>
-                <td className="px-6 py-4">{user.dateNaissance}</td>
-                <td className="px-6 py-4">{user.mutuelle}</td>
-                <td className="px-6  py-4 text-right">
-                  <a
-                    href="#"
-                    className="font-medium text-black dark:text-blue-500 hover:underline"
-                    onClick={() => displayPatient(user.nom)} // Call function to display patient details
-                  >
-                    <span className="inline-flex items-center">
-                      <FaRegEye className="mr-1" />
-                    </span>
-                  </a>
-                  <a
-                    href="#"
-                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                    onClick={() => handleEditClick(user)}
-                  >
-                    <span className="inline-flex items-center">
-                      <FaPlus className="mr-1" />
-                    </span>
-                  </a>
-                  <a
-                    href="#"
-                    className="font-medium text-green-600 dark:text-blue-500 hover:underline"
-                    onClick={() => handleEditClick(user)}
-                  >
-                    <span className="inline-flex items-center">
-                      <FaUserEdit className="mr-1" />
-                    </span>
-                  </a>
-                  <a
-                    href="#"
-                    className="font-medium text-red-600 dark:text-red-500 hover:underline"
-                    onClick={() => handleDelete(user._id)}
-                  >
-                    <span className="inline-flex items-center">
-                      <MdDelete className="mr-1" />
-                    </span>
-                  </a>
-                </td>
-              </tr>
+                user={user}
+                handleDelete={handleDelete}
+                displayPatient={displayPatient}
+                handleMedicalInfo={handleMedicalInfo}
+                handleEditClick={handleEditClick}
+              />
             ))}
           </tbody>
         </table>

@@ -15,7 +15,8 @@ function EditForm({ userId, onCancel, userData: initialUserData, onEditComplete 
       event.preventDefault();
       setLoading(true);
       try {
-        const response = await axios.put(`http://localhost:3000/api/users/${userId}`, userData);
+        const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+        const response =await axios.put(`${apiUrl}api/users/${userId}`, userData);
         console.log('User updated:', response.data);
         onEditComplete(); // Inform the parent component that editing is complete
       } catch (error) {
@@ -122,81 +123,7 @@ function EditForm({ userId, onCancel, userData: initialUserData, onEditComplete 
           </div>
         </div>
 
-        <div className="flex flex-wrap -mx-3 mb-2">
-          <div className="w-full md:w-1/2 px-3">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              htmlFor="grid-status"
-            >
-              Mutuelle
-            </label>
-            <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="grid-status"
-              type="text"
-              name="mutuelle"
-              value={userData.mutuelle}
-              onChange={handleChange}
-              placeholder="Type de mutuelle"
-            />
-          </div>
-          <div className="w-full md:w-1/2 px-3">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              htmlFor="grid-motif"
-            >
-              Motif
-            </label>
-            <select
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="grid-motif"
-              name="motif"
-              value={userData.motif}
-              onChange={handleChange}
-            >
-              <option value="Diagnostic">Diagnostic</option>
-              <option value="Traitement">Traitement</option>
-            </select>
-          </div>
-        </div>
 
-        <div className="flex flex-wrap -mx-3 mb-2">
-          <div className="w-full md:w-1/2 px-3">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              htmlFor="grid-status"
-            >
-              diagnostic
-            </label>
-            <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="grid-status"
-              type="text"
-              name="diagnostic"
-              value={userData.diagnostic}
-              onChange={handleChange}
-              placeholder="Type de mutuelle"
-            />
-          </div>
-          <div className="w-full md:w-1/2 px-3">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              htmlFor="grid-motif"
-            >
-              traitement
-            </label>
-            <select
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="grid-motif"
-              name="traitement"
-              value={userData.traitement}
-              onChange={handleChange}
-            >
-              <option value="Diagnostic">Diagnostic</option>
-              <option value="Traitement">Traitement</option>
-            </select>
-          </div>
-        </div>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
           type="submit"

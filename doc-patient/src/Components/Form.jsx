@@ -98,6 +98,23 @@ function Form({ userData, handleChange, handleSubmit, showSuccessAlert }) {
               placeholder="0661255659"
             />
           </div>
+          <div className="w-full md:w-1/2 px-3">
+            <label
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="grid-visit-date"
+            >
+              Tension
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              id="grid-visit-date"
+              type="text"
+              name="tension"
+              value={userData.tension}
+              onChange={handleChange}
+              placeholder="tensio pression"
+            />
+          </div>
         </div>
 
         <div className="flex flex-wrap -mx-3 mb-2">
@@ -120,80 +137,7 @@ function Form({ userData, handleChange, handleSubmit, showSuccessAlert }) {
           </div>
         </div>
 
-        <div className="flex flex-wrap -mx-3 mb-2">
-          <div className="w-full md:w-1/2 px-3">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              htmlFor="grid-status"
-            >
-              Mutuelle
-            </label>
-            <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="grid-status"
-              type="text"
-              name="mutuelle"
-              value={userData.mutuelle}
-              onChange={handleChange}
-              placeholder="Type de mutuelle"
-            />
-          </div>
-          <div className="w-full md:w-1/2 px-3">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              htmlFor="grid-motif"
-            >
-              Motif
-            </label>
-            <select
-  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-  id="grid-motif"
-  name="motif"
-  value={userData.motif} // Set the value directly here
-  onChange={handleChange}
->
-  <option value="">Select Motif</option>
-  <option value="Diagnostic">Diagnostic</option>
-  <option value="Traitement">Traitement</option>
-</select>
-          </div>
-        </div>
-        <div className="flex flex-wrap -mx-3 mb-2">
-          <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              htmlFor="grid-full-name"
-            >
-              traitement
-            </label>
-            <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-full-name"
-              type="text"
-              name="traitement"
-              value={userData.traitement}
-              onChange={handleChange}
-              placeholder="Jane Doe"
-            />
-          </div>
-          <div className="w-full md:w-1/2 px-3">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              htmlFor="grid-telephone"
-            >
-              Diagnostic
-            </label>
-            <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="grid-telephone"
-              type="text"
-              name="diagnostic"
-              value={userData.diagnostic}
-              onChange={handleChange}
-              placeholder="Enter telephone number"
-            />
-          </div>
-        </div>
+        
 
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

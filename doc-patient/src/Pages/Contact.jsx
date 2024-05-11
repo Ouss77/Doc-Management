@@ -1,12 +1,15 @@
 import Header from "../Components/Header"
+import doc from '../assets/doc.jpg'
 
 function Contact() {
   return (
-    < div className=" bg-[url('./assets/doc.jpg')] h-full bg-no-repeat bg-cover">
+    < div className="relative" >
 <Header/>
-    <div className="container my-24 mx-auto md:px-6 ">
+<img src={doc} alt="Doctor" className="w-full h-auto" />
+
+    <div className=" ">
     {/* Section: Design Block */}
-    <section className="mb-32">
+    <section className="absolute sm:top-0 top-10 w-1/2 sm:right-20 sm:w-4/5 h-full sm:flex sm:flex-col sm:justify-center sm:items-center   ">
       <div className="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
         <div className="flex flex-wrap items-center">
           <div className="block w-full shrink-0 grow-0 basis-auto lg:flex lg:w-6/12 xl:w-4/12">
