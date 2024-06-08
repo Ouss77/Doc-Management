@@ -110,7 +110,7 @@ function PatientsTable({ filteredUsers, handleDelete }) {
               </th>
               <th scope="col" className="px-6 py-3">
                 {" "}
-                Tension{" "}
+                CIN{" "}
               </th>
               <th scope="col" className="pl-20 py-3">
                 {" "}

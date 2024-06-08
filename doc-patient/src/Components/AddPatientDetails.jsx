@@ -8,10 +8,9 @@ function AddPatientDetails({userId, onCancel}) {
   const [userData, setUserData] = useState({
 
     mutuelle: "",
-    adresse: "",
-    tel: "",
     motif: "",
-    dateVisited: "",
+    diagnostic: "",
+    traitement: "",
   });
 
   const handleChange = (event) => {

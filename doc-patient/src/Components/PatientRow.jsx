@@ -44,7 +44,7 @@ function PatientRow({ user, handleDelete, displayPatient, handleMedicalInfo, han
             <td className="px-6 py-4">{user.prenom}</td>
             <td className="px-6 py-4">{user.tel}</td>
             <td className="px-6 py-4">{user.dateNaissance}</td>
-            <td className="px-6 py-4">{user.tension}</td>
+            <td className="px-6 py-4">{user.CIN}</td>
             <td className="px-6 py-4 text-right">
                 <PatientActions
                     user={user}

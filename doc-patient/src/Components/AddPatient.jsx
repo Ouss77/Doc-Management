@@ -11,7 +11,7 @@ function AddPatient() {
     dateNaissance: "",
     adresse: "",
     tel: "",
-    tension: ""
+    CIN: ""
   });
 
 const handleChange = (event) => {

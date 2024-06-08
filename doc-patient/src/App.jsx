@@ -1,23 +1,33 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'; 
 import Home from './Pages/Home';
 import Patient from './Pages/Patient';
-import AddPatient from './Components/AddPatient';
 import Contact from './Pages/Contact';
 import About from './Pages/About';
-import Dashboard from './Components/Dashboard';
+import Consultation from './Pages/Consultation';
+import Login from './Pages/Login';
+import { AuthProvider } from './Components/Login/AuthContext';
+import PrivateRoute from './Components/Login/PrivateRoute';
+import Ordonance from './Pages/Ordonance';
 
 const App = () => {
   return (
+    <AuthProvider>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />   {/* Default route for Home */}
-        <Route path="/patient" element={<Patient />} />  {/* Route for Patient */}
-        <Route path="/AddPatient" element={<AddPatient />} />  {/* Route for Patient */}
-        <Route path="/Contact" element={<Contact />} />  {/* Route for Patient */}
-        <Route path="/About" element={<About />} />  {/* Route for Patient */}
-        <Route path="/Dash" element={<Dashboard />} />  {/* Route for Patient */}
+        <Route path="/" element={<Home />} />   
+          <Route path="/Contact" element={<Contact />} />  
+          <Route path="/About" element={<About />} />  
+        <Route path="/login" element={<Login />} />
+
+        {/* Protected routes */}
+        <Route element={<PrivateRoute />}>
+          <Route path="/patient" element={<Patient />} />  
+          <Route path="/Oradonance" element={<Ordonance />} />  
+          <Route path="/Consultation" element={<Consultation />} />  
+        </Route>
       </Routes>
     </BrowserRouter>
+  </AuthProvider>
   );
 };
 

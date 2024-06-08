@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import PatientsTable from "./PatientsTable";
-import Dashboard from "./Dashboard";
 import AddPatient from "./AddPatient";
 import { Link } from 'react-router-dom';
 
@@ -68,7 +67,7 @@ function TableHeader({ displayComponent, setDisplayComponent }) {
   return (
     <div className="bg-[url('./assets/doc.jpg')] h-screen bg-no-repeat bg-cover">
       <section className="flex items-center dark:bg-gray-900">
-        <div className="w-2/3 max-w-screen-xl px-4 mx-auto lg:px-12 pt-20">
+        <div className="w-auto max-w-screen-xl px-4 mx-auto lg:px-12 pt-20 md:w-2/3">
           <div className="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
             <div className="flex-row items-center justify-between p-4 space-y-3 sm:flex sm:space-y-0 sm:space-x-4">
               <div>
@@ -126,9 +125,7 @@ function TableHeader({ displayComponent, setDisplayComponent }) {
         </div>
       </section>
 
-      {displayComponent === "Dashboard" ? (
-        <Dashboard />
-      ) : displayComponent === "AddPatient" ? (
+      {displayComponent === "AddPatient" ? (
         <AddPatient />
       ) : ( 
         <PatientsTable

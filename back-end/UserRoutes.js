@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
       dateNaissance: req.body.dateNaissance,
       adresse: req.body.adresse,
       tel: req.body.tel,
-      tension: req.body.tension,
+      CIN: req.body.CIN
     });
     console.log("hey")
     const savedPatient = await newPatient.save();
@@ -92,7 +92,8 @@ router.post('/addMedicalInfo/:id', async (req, res) => {
       id: 0,  // Temporary placeholder, will be replaced by actual next ID
       mutuelle: req.body.mutuelle,
       motif: req.body.motif,
-      diagnostic: req.body.diagnostic,
+      tension: req.body.tension, 
+      diagnostic: req.body.diagnostic, 
       traitement: req.body.traitement,
       dateVisite: req.body.dateVisite
     };

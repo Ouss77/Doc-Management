@@ -5,7 +5,7 @@ function About() {
   return (
     <dispatchEvent>
 <Header/>
-          <section className="overflow-hidden pt-20 pb-12 lg:pt-[120px] lg:pb-[90px] bg-white dark:bg-dark bg-[url('./assets/doc.jpg')] h-full bg-no-repeat bg-cover ">
+          <section className="overflow-hidden pt-20 pb-12 lg:pt-[60px] lg:pb-[90px] bg-white dark:bg-dark bg-[url('./assets/doc.jpg')] h-full bg-no-repeat bg-cover ">
         <div className="container mx-auto">
           <div className="flex flex-wrap items-center justify-between -mx-4">
             <div className="w-full px-4 lg:w-6/12">
@@ -53,12 +53,7 @@ function About() {
                 <p className="mb-8 text-base text-body-color dark:text-dark-6">
                 En plus de ses qualifications en médecine générale, Mohammed Sassour détient des diplômes spécialisés dans le domaine du sport et des maladies sexuellement transmissibles. Cette combinaison de compétences lui permet d'offrir des soins complets et adaptés à diverses situations médicales, tant dans le domaine de la santé générale que dans celui de la médecine 
                 </p>
-                <a
-                  href="javascript:void(0)"
-                  className="inline-flex items-center justify-center py-3 text-base font-medium text-center text-white border border-transparent rounded-md px-7 bg-primary hover:bg-opacity-90"
-                >
-                  Get Started
-                </a>
+
               </div>
             </div>
           </div>

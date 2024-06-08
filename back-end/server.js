@@ -1,10 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const userRoutes = require('./UserRoutes'); // Import userRoutes
+const userRoutes = require('./UserRoutes');
+const visitRoutes = require('./VisitRoutes');
+const adminRoutes = require('./AdminRoutes');
 var cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
-
-const Patient = require('./UserModel');
 
 const app = express();
 const PORT = process.env.PORT || 3002;
@@ -16,6 +15,8 @@ const uri = "mongodb+srv://oussama:oussama@cluster0.qgvvxvt.mongodb.net/Patients
 app.use(cors())
 app.use(express.json());
 app.use('/api/users', userRoutes)
+app.use('/api', visitRoutes)
+app.use('/',  adminRoutes)
 
 mongoose.connect(uri, { })
   .then(() => {
@@ -24,7 +25,6 @@ mongoose.connect(uri, { })
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error);
   });
-
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
