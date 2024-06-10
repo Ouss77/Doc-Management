@@ -36,6 +36,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+
 //Search patients by name
 router.get('/medicalInfo/:patientId', async (req, res) => {
   try {

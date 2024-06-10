@@ -1,6 +1,7 @@
 import Header from "../Components/Header"
 import doc from '../assets/doc1.jpg'
 import doc2 from '../assets/doc2.jpg'
+
 function About() {
   return (
     <dispatchEvent>
@@ -60,6 +61,7 @@ function About() {
         </div>
       </section>
     </dispatchEvent>
+  
   )
 }
 

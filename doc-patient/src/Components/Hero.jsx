@@ -12,21 +12,21 @@ function Hero() {
       </div>
   <div className="absolute  sm:-bottom-20 left-0 w-full flex justify-center">
         <div className="flex flex-col sm:flex-row justify-between max-w-screen-lg sm:w-full ">
-          <div className="bg-gradient-to-r from-blue-300 via-blue-20 to-blue-50 bg-opacity-20 shadow-lg p-4 rounded-lg mx-2 w-full mb-4">
+          <div className="bg-gradient-to-r from-blue-300 via-blue-20 to-blue-50 bg-opacity-20 shadow-lg p-4 rounded-lg mx-2 mb-4 mt-4">
             <h2 className="text-gray-800 text-lg font-bold mb-2">LES JOURS DE TRAVAILLE</h2>
             <p className="text-gray-600">Lundi - Vendredi: <span className='float-right'> 9AM - 5PM</span></p>
             <p className="text-gray-600">Samedi: <span className='float-right'> 9AM - 1PM</span></p>
             <p className="text-gray-600">Dimanche:  <span className='float-right mr-9'>Ferme</span></p>
           </div>
           
-          <div className="bg-gradient-to-r from-blue-300 via-blue-20 to-blue-50 bg-opacity-20 shadow-lg p-4 rounded-lg mx-2 w-full mb-4 " >
+          <div className="bg-gradient-to-r from-blue-300 via-blue-20 to-blue-50 bg-opacity-20 shadow-lg p-4 rounded-lg mx-2 mb-4 " >
             <h2 className="text-gray-800 text-lg font-bold mb-2">Contact Number</h2>
             <p className="text-gray-600">Secrétaire: <span className='float-right'>0661255699</span> </p>
             <p className="text-gray-600">Fix-Cabinet: <span className='float-right'>0661255699</span> </p>
             <p className="text-gray-600">Médecin: <span className='float-right'>0661255699</span> </p>
           </div>
 
-          <div className="bg-gradient-to-r from-blue-300 via-blue-20 to-blue-50 bg-opacity-20 shadow-lg p-4 rounded-lg mx-2 w-full mb-4 " >
+          <div className="bg-gradient-to-r from-blue-300 via-blue-20 to-blue-50 bg-opacity-20 shadow-lg p-4 rounded-lg mx-2  mb-4 " >
             <h2 className="text-gray-800 text-lg font-bold mb-2">Address</h2>
             <p className="text-gray-600">Boulevard Mohammed 5, Rue 12, Immeuble: 23, Premier Etage. Maroc, Guercif</p>
           </div>

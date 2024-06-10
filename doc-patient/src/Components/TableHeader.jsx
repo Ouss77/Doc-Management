@@ -1,9 +1,9 @@
-/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import axios from "axios";
 import PatientsTable from "./PatientsTable";
 import AddPatient from "./AddPatient";
 import { Link } from 'react-router-dom';
+import { exportToCSV } from './exportToCSV'; // Import the export function
 
 function TableHeader({ displayComponent, setDisplayComponent }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,7 +19,6 @@ function TableHeader({ displayComponent, setDisplayComponent }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        //const response = await axios.get("http://localhost:3002/api/users");
         const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
         const response = await axios.get(`${apiUrl}api/users`);
@@ -52,17 +51,12 @@ function TableHeader({ displayComponent, setDisplayComponent }) {
   };
 
   const exportData = () => {
-    // Export logic here
-  };
-
-  const handleExploreData = () => {
-    setDisplayComponent("Dashboard");
+    exportToCSV();
   };
 
   const handleAddPatient = () => {
     setDisplayComponent("AddPatient");
   };
-
 
   return (
     <div className="bg-[url('./assets/doc.jpg')] h-screen bg-no-repeat bg-cover">
@@ -71,10 +65,9 @@ function TableHeader({ displayComponent, setDisplayComponent }) {
           <div className="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
             <div className="flex-row items-center justify-between p-4 space-y-3 sm:flex sm:space-y-0 sm:space-x-4">
               <div>
-              <Link onClick={() => setDisplayComponent("PatientsTable")} className="mr-3 font-semibold dark:text-white">
-   PATIENTS
-</Link>
-
+                <Link onClick={() => setDisplayComponent("PatientsTable")} className="mr-3 font-semibold dark:text-white">
+                  PATIENTS
+                </Link>
                 <p className="text-gray-500 dark:text-gray-400">
                   Manage Patients
                 </p>
@@ -103,13 +96,6 @@ function TableHeader({ displayComponent, setDisplayComponent }) {
                 >
                   Export Data
                 </button>
-                <button
-                  type="button"
-                  onClick={handleExploreData}
-                  className="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 focus:outline-none"
-                >
-                  Explore Data
-                </button>
               </div>
               <div>
                 <input
@@ -129,9 +115,8 @@ function TableHeader({ displayComponent, setDisplayComponent }) {
         <AddPatient />
       ) : ( 
         <PatientsTable
-        filteredUsers={filteredPatients}
+          filteredUsers={filteredPatients}
           handleDelete={handleDelete}
-          
         />
       )}
     </div> 
