@@ -26,6 +26,6 @@ mongoose.connect(uri, { })
     console.error("Error connecting to MongoDB:", error);
   });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Express server listening on port ${PORT}`);
 });

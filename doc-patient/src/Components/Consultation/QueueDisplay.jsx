@@ -1,39 +1,33 @@
+import React, { useEffect } from 'react';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 function QueueDisplay({ queue, setQueue }) {
-    const [error, setError] = useState('');
-
     useEffect(() => {
         AOS.init({ duration: 2000, once: true });
     }, []);
 
-    const handleRemovePatient = async (nom, prenom) => {
+    const handleRemovePatient = async (id, nom, prenom) => {
         console.log(`Attempting to remove patient: ${nom} ${prenom}`);
+        console.log(id);
         try {
             const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
             const deleteUrl = `${apiUrl}api/removeVisit?nom=${encodeURIComponent(nom)}&prenom=${encodeURIComponent(prenom)}`;
             await axios.delete(deleteUrl);
-            const updatedQueue = queue.filter(item => item.nom !== nom || item.prenom !== prenom);
-            setQueue(updatedQueue);
-            localStorage.setItem('queue', JSON.stringify(updatedQueue)); // Save updated queue to local storage
+            setQueue(queue.filter(item => item._id !== id));
             console.log('Visit removed successfully');
-            setError(''); // Clear any previous errors on successful operation
             AOS.refresh();
         } catch (error) {
             console.error('Failed to remove visit', error);
-            setError('Failed to remove visit. Please try again.');
         }
     };
-
+    
     const today = new Date().toISOString().split('T')[0];
-    const todayQueue = queue.filter(item => item.addedTime.startsWith(today));
+    const todayQueue = queue.filter(item => item.dateVisited?.startsWith(today));  // Optional chaining here
 
     return (
         <div>
-            {error && <p className="text-red-500">{error}</p>}
             <h2 className="text-lg font-semibold text-gray-800 mt-6 mb-2">Today's Queue</h2>
             <table className="w-full">
                 <thead>
@@ -54,7 +48,7 @@ function QueueDisplay({ queue, setQueue }) {
                             <td className="py-2 px-4">
                                 <button
                                     className="bg-red-500 text-white py-1 px-3 rounded"
-                                    onClick={() => handleRemovePatient(item.nom, item.prenom)}
+                                    onClick={() => handleRemovePatient(item._id, item.nom, item.prenom)}
                                 >
                                     Remove
                                 </button>

@@ -43,7 +43,7 @@ const handleChange = (event) => {
         mutuelle: "",
         adresse: "",
         tel: "",
-        tension: ""
+        CIN: ""
 
       });
       window.location.reload(); // Refresh the page

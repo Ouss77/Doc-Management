@@ -95,7 +95,7 @@ const VisitsChart = () => {
           </div>
         </div>
       </div>
-      <div className="w-full lg:w-2/5 ml-0 lg:ml-56">
+      <div className="w-full lg:w-2/5 ml-36 lg:ml-56">
         <h2 className="text-lg font-bold mb-6 mr-28 text-center text-blue-800">Selection la Date</h2>
         <DatePicker
           selected={startDate}

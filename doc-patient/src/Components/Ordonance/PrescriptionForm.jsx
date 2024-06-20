@@ -24,7 +24,7 @@ const PrescriptionForm = ({ doctorInfo }) => {
   return (
     <div className="container mx-auto p-4 mt-20 flex flex-col items-center">
       <div className="flex flex-col items-center">
-        <img className="mb-4" src="docheader.png" alt="Header Image" />
+        <img className="mb-4" src="headdoc.png" alt="Header Image" />
         <PatientSearchOr onSelectPatient={handleSelectPatient} />
         <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-2xl">
           <div>

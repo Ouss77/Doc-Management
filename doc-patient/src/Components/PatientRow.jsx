@@ -40,12 +40,12 @@ function PatientActions({ user, handleDelete, displayPatient, handleMedicalInfo,
 function PatientRow({ user, handleDelete, displayPatient, handleMedicalInfo, handleEditClick }) {
     return (
         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{user.nom}</td>
-            <td className="px-6 py-4">{user.prenom}</td>
-            <td className="px-6 py-4">{user.tel}</td>
-            <td className="px-6 py-4">{user.dateNaissance}</td>
-            <td className="px-6 py-4">{user.CIN}</td>
-            <td className="px-6 py-4 text-right">
+            <td className="px-3 lg:px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{user.nom}</td>
+            <td className="px-3 lg:px-6py-4">{user.prenom}</td>
+            <td className="px-3 lg:px-6 py-4">{user.tel}</td>
+            <td className="px-3 lg:px-6 py-4 hidden sm:table-cell">{user.dateNaissance}</td>
+            <td className="px-3 lg:px-6 py-4 hidden sm:table-cell">{user.CIN}</td>
+            <td className="px-3 lg:px-6 py-4 text-right">
                 <PatientActions
                     user={user}
                     handleDelete={handleDelete}

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStethoscope } from '@fortawesome/free-solid-svg-icons';
 
 const MedicalCertificate = () => {
+
   return (
     <div className="p-8 max-w-2xl mx-auto bg-white shadow-md rounded-md border">
       <header className="flex justify-between items-center mb-8">

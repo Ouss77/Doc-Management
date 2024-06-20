@@ -2,38 +2,50 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PatientSearch from './PatientSearch';
 import QueueDisplay from './QueueDisplay';
-import VisitsChart from './VisitsChart'; // Import your VisitsChart component
+import VisitsChart from './VisitsChart';
 
 function AddConsultation() {
-    const [queue, setQueue] = useState([]);
     const [showQueue, setShowQueue] = useState(true); // Initially show Queue
+    const [queue, setQueue] = useState([]);
 
     useEffect(() => {
-        const storedQueue = localStorage.getItem('queue');
-        if (storedQueue) {
-            setQueue(JSON.parse(storedQueue));
-        }
+        const fetchQueue = async () => {
+            try {
+                const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+                const response = await axios.get(`${apiUrl}api/visits`);
+                const today = new Date().toISOString().split('T')[0];
+                setQueue(response.data.filter(item => item.dateVisited.startsWith(today)));
+            } catch (error) {
+                console.error('Failed to fetch queue', error);
+            }
+        };
+        fetchQueue();
     }, []);
 
     const handleAddToQueue = async (patient) => {
-        const newQueueItem = { ...patient, addedTime: new Date().toISOString() };
-        const newQueue = [...queue, newQueueItem];
-        setQueue(newQueue);
-        localStorage.setItem('queue', JSON.stringify(newQueue)); // Save updated queue to local storage
-
         try {
+            const today = new Date().toISOString().split('T')[0];
+            const isAlreadyInQueue = queue.some(item => 
+                item._id === patient._id && 
+                item.dateVisited.startsWith(today)
+            );
+    
+            if (isAlreadyInQueue) {
+                console.log('Patient already in the queue for today.');
+                return;
+            }
+    
             const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
             await axios.post(`${apiUrl}api/addVisit`, {
                 nom: patient.nom,
                 prenom: patient.prenom
             });
             console.log('Visit added successfully');
+            setQueue([...queue, { ...patient }]);
         } catch (error) {
             console.error('Failed to register visit', error);
         }
     };
-
-    const sortedQueue = queue.sort((a, b) => new Date(a.addedTime) - new Date(b.addedTime));
 
     return (
         <div className="max-w-6xl mx-auto px-4 py-24 bg-white shadow-lg rounded-lg">
@@ -48,11 +60,10 @@ function AddConsultation() {
                     {showQueue ? 'Show Visits Chart' : 'Show Queue'}
                 </button>
             </div>
-            {/* Toggle between PatientSearch and QueueDisplay based on showQueue */}
             {showQueue ? (
                 <div>
                     <PatientSearch onAddToQueue={handleAddToQueue} />
-                    <QueueDisplay queue={sortedQueue} setQueue={setQueue} />
+                    <QueueDisplay queue={queue} setQueue={setQueue} />
                 </div>
             ) : (
                 <VisitsChart />
@@ -61,4 +72,4 @@ function AddConsultation() {
     );
 }
 
-export default AddConsultation
+export default AddConsultation;

@@ -93,26 +93,19 @@ function PatientsTable({ filteredUsers, handleDelete }) {
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" className="px-6 py-3">
-                {" "}
+              <th scope="col" className="px-3 lg:px-6 py-3">
                 Nom
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-3 lg:px-6 py-3">
                 {" "}
                 Prenom{" "}
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-3 lg:px-6 py-3">
                 Telephone
               </th>
-              <th scope="col" className="px-6 py-3">
-                {" "}
-                Date de Naissance{" "}
-              </th>
-              <th scope="col" className="px-6 py-3">
-                {" "}
-                CIN{" "}
-              </th>
-              <th scope="col" className="pl-20 py-3">
+              <th scope="col" className="px-3 py-2 hidden sm:table-cell">Date de Naissance</th>
+              <th scope="col" className="px-3 py-2 hidden sm:table-cell">CIN</th>
+              <th scope="col" className="lg:pl-20 pl-0 py-3">
                 {" "}
                 Actions{" "}
               </th>

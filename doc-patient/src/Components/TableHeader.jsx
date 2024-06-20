@@ -68,9 +68,9 @@ function TableHeader({ displayComponent, setDisplayComponent }) {
                 <Link onClick={() => setDisplayComponent("PatientsTable")} className="mr-3 font-semibold dark:text-white">
                   PATIENTS
                 </Link>
-                <p className="text-gray-500 dark:text-gray-400">
+                {/* <p className="text-gray-500 dark:text-gray-400">
                   Manage Patients
-                </p>
+                </p> */}
               </div>
               <div className="flex items-center">
                 <button
@@ -103,7 +103,7 @@ function TableHeader({ displayComponent, setDisplayComponent }) {
                   value={searchQuery}
                   placeholder="Chercher par nom"
                   onChange={handleSearchChange}
-                  className="border border-gray-300 p-2 rounded-lg"
+                  className="border border-gray-300 p-2 lg:ml-8 ml-5 rounded-lg"
                 />
               </div>
             </div>
